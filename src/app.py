@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello from my-app running in Docker + Jenkins + ArgoCD!"
+    return "This is test-app  running in Docker + Jenkins + ArgoCD!"
 
 @app.route("/echo", methods=["GET"])
 def echo():
