@@ -19,7 +19,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: test-app
-        image: amdp-registry.skala-ai.com/skala25a/sk010-test-app:1.0.0-0818f32fcd30
+        image: amdp-registry.skala-ai.com/skala25a/sk010-test-app:1.0.0-ed796d1046f9
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
