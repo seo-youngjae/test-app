@@ -30,20 +30,21 @@ pipeline {
     }
 
     stage('Check Python Dependencies') {
-          steps {
-            echo 'Checking Python environment...'
-            sh '''
-              set -eux
-              python3 --version
-              pip3 --version
-              if [ -f requirements.txt ]; then
-                  pip3 install -r requirements.txt
-              else
-                  pip3 install flask
-              fi
-            '''
-          }
-        }
+      steps {
+        echo 'Checking Python environment...'
+        sh '''
+          set -eux
+          python3 --version
+          pip3 --version
+          if [ -f requirements.txt ]; then
+              pip3 install -r requirements.txt --break-system-packages
+          else
+              pip3 install flask --break-system-packages
+          fi
+        '''
+      }
+    }
+
 
     // stage('Build with Maven') {
     //   steps {
