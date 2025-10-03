@@ -10,7 +10,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt || pip install flask
 
 # Flask 앱 코드 복사
-COPY . .
+COPY src/ /app/
 
 # Flask 기본 포트
 EXPOSE 5000
