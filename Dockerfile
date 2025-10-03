@@ -1,21 +1,19 @@
-# 베이스 이미지로 OpenJDK 17 버전의 JRE 이미지 사용
-#FROM openjdk:17-jdk-slim
-FROM amdp-registry.skala-ai.com/library/openjdk:17-jdk-slim
+# Flask 앱용 Dockerfile
+FROM python:3.9-slim
 
-
-# 작업 디렉토리 설정
+# 작업 디렉토리 생성
 WORKDIR /app
 
-# 외부에서 컨테이너의 8080 포트에 접근할 수 있도록 설정
-EXPOSE 8080
-EXPOSE 8081
+# 종속성 설치용 requirements.txt가 있다면 복사
+# (없다면 pip로 직접 설치해도 무방)
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt || pip install flask
 
-# 외부에서 받아들일 변수 선언
-#ARG JAR_FILE
+# Flask 앱 코드 복사
+COPY . .
 
-# 애플리케이션의 jar 파일을 컨테이너에 추가
-#ADD ${JAR_FILE}  app.jar
-ADD ./target/spring-boot-app-0.0.1-SNAPSHOT.jar  app.jar
+# Flask 기본 포트
+EXPOSE 5000
 
-# 애플리케이션 실행
-ENTRYPOINT ["java","-jar","app.jar"]
+# Flask 앱 실행
+CMD ["python", "app.py"]

@@ -1,24 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: sk010-test-app-ingress
+  namespace: skala-practice
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-  name: sk010-myfirst-ingress
-  namespace: skala-practice
 spec:
   ingressClassName: public-nginx
   rules:
-  - host: sk010-ingress.skala25a.project.skala-ai.com
+  - host: sk010-test-app.skala25a.project.skala-ai.com   # 필요 시 변경 가능
     http:
       paths:
-      - backend:
-          service:
-            name: sk010-myfirst-api-server
-            port:
-              number: 8080
-        path: /
+      - path: /
         pathType: Prefix
+        backend:
+          service:
+            name: sk010-test-app     # Flask 앱의 Service 이름
+            port:
+              number: 80             # Service 포트 (Flask의 targetPort 5000과 연결됨)
   tls:
   - hosts:
-    - 'sk010-ingress.skala25a.project.skala-ai.com'
-    secretName: sk010-ingress-project-tls-cert
+    - sk010-test-app.skala25a.project.skala-ai.com
+    secretName: sk010-test-app-tls-cert

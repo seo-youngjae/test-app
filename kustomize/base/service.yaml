@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sk010-test-app
+  name: myfirst-api-server
 spec:
   selector:
-    app: sk010-test-app
+    app: myfirst-api-server
   ports:
     - name: http
       protocol: TCP

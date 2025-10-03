@@ -3,10 +3,10 @@ pipeline {
 
   environment {
     // === 사용자 수정 영역 ===
-    GIT_URL                = 'https://github.com/seo-youngjae/myfirst-api-server.git'
+    GIT_URL                = 'https://github.com/seo-youngjae/test-app.git'
     GIT_BRANCH             = 'main'            // 또는 main
     GIT_ID                 = 'skala-github-id'   // GitHub PAT credential ID
-    IMAGE_NAME             = 'sk010-myfirst-api-server'
+    IMAGE_NAME             = 'sk010-test-app'
     // =======================
     IMAGE_TAG              = '1.0.0'
     IMAGE_REGISTRY_URL     = 'amdp-registry.skala-ai.com'
@@ -29,12 +29,28 @@ pipeline {
       }
     }
 
-    stage('Build with Maven') {
-      steps {
-        echo 'Build with Maven'
-        sh 'mvn clean package -DskipTests'
-      }
-    }
+    stage('Check Python Dependencies') {
+          steps {
+            echo 'Checking Python environment...'
+            sh '''
+              set -eux
+              python3 --version
+              pip3 --version
+              if [ -f requirements.txt ]; then
+                  pip3 install -r requirements.txt
+              else
+                  pip3 install flask
+              fi
+            '''
+          }
+        }
+
+    // stage('Build with Maven') {
+    //   steps {
+    //     echo 'Build with Maven'
+    //     sh 'mvn clean package -DskipTests'
+    //   }
+    // }
 
     // 태그/이미지 경로 계산 (메타)
     stage('Compute Image Meta') {
